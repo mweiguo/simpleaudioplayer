@@ -45,7 +45,7 @@ package {
 	    _ctrlBtn.onCtrlClicked(null);
 	}
 	private function onPlayComplete ( e:Event ):void {
-	    ExternalInterface.call ("alert", "123");
+	    ExternalInterface.call ("alert", "播放结束");
 	    _ctrlBtn.onCtrlClicked ( null );
 	    removeEventListener ( Event.ENTER_FRAME, onEnterFrame );
 	}
