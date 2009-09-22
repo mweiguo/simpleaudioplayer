@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      function getFlash(name) {   
+      var isIE = navigator.appName.indexOf("Microsoft") != -1; 
+      return (isIE) ? window[name] : document[name];
+      }  
+
+      function toggle() {
+      getFlash("player1").toggle();
+      }
+
+    </script>
+  </head>
+  <body>
+    <object id="player1" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="550" height="400">
+      <param name="movie" value="sap.swf">
+      <param name="FlashVars" value="mp3path=http://upload.asdfgame.cn/zzzzzmp3/2009dApr/02/02_xuwei/14.mp3">
+      <embed name="player1" src="sap.swf" width="550" height="400" FlashVars="mp3path=http://bk.97star.com.cn/UploadMusic/20095911501673499.mp3">
+      </embed>
+    </object>
+    <input type="button" onclick="toggle();" value="start/stop"/>
+  </body>
+</html>
