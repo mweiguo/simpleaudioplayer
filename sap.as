@@ -5,7 +5,7 @@ package {
     import flash.errors.IOError;
 
     public class sap extends Sprite {
-	static public const SAPHEIGHT:uint = 40;
+	static public const SAPHEIGHT:uint = 35;
 	static public const STATUSBTNWIDTH:uint = 60;
 	static public const CTRLBTNWIDTH:uint = 40;
 
@@ -16,16 +16,19 @@ package {
 	static public const STATUSBTNCOLOR:uint = 0xcccccc;
 	static public const STATUSCOLOR:uint = 0x777777;
 	static public const CTRLBTNCOLOR:uint = 0xaaaaaa;
+	static public const CTRLBTNCOLORHOVER:uint = 0x888888;
 	static public const CURSORCOLOR:uint = 0x0;
 
 	static public const CURSORALPHA:Number = 0.8;
 	static public const STATUSALPHA:Number = 0.3;
+	static public var ID:String = null;
 
 	private var _skin:sapskin = null;
 	public function sap () {
 	    try {
 		var paramObj:Object = LoaderInfo(this.root.loaderInfo).parameters;
 		var path:String = String(paramObj['mp3path']);
+		sap.ID = String(paramObj['id']);
 		_skin = new sapskin(path);
 		addChild ( _skin );
 	    } catch ( e:IOError ) {

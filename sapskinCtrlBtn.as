@@ -8,6 +8,8 @@ package {
     public class sapskinCtrlBtn extends Sprite {
 	private var _ctrlShapePlay:Shape = null;
 	private var _ctrlShapeStop:Shape = null;
+	private var _ctrlShapePlayHover:Shape = null;
+	private var _ctrlShapeStopHover:Shape = null;
 	private var _btn:SimpleButton = null;
 	private var _vx:int = 0;
 	private var _mask1:Sprite = null;
@@ -16,7 +18,10 @@ package {
 	    _btn = new SimpleButton();
 	    _ctrlShapePlay = createCtrlShapePlay ( sap.CTRLBTNCOLOR );
 	    _ctrlShapeStop = createCtrlShapeStop ( sap.CTRLBTNCOLOR );
-	    _btn.overState = _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapePlay;
+	    _ctrlShapePlayHover = createCtrlShapePlay ( sap.CTRLBTNCOLORHOVER );
+	    _ctrlShapeStopHover = createCtrlShapeStop ( sap.CTRLBTNCOLORHOVER );
+	    _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapePlay;
+	    _btn.overState = _ctrlShapePlayHover;
 
 	    var mask:Sprite = new Sprite ();
 	    mask.graphics.lineStyle(1);
@@ -81,11 +86,13 @@ package {
 	    return _mask1;
 	}
 	public function showPlay() : void {
-	    _btn.overState = _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapePlay;
+	    _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapePlay;
+	    _btn.overState = _ctrlShapePlayHover;
 	}
 
 	public function showStop() : void {
-	    _btn.overState = _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapeStop;
+	    _btn.downState = _btn.hitTestState = _btn.upState = _ctrlShapeStop;
+	    _btn.overState = _ctrlShapeStopHover;
 	}
 
 	public function isPlayStatus() : Boolean {
@@ -109,10 +116,10 @@ package {
 
 	    s.graphics.lineStyle(7);
 	    s.graphics.beginFill(0x0);
-	    s.graphics.moveTo ( sap.CTRLBTNWIDTH / 3, sap.SAPHEIGHT / 4 );
-	    s.graphics.lineTo ( sap.CTRLBTNWIDTH / 3, 3 * sap.SAPHEIGHT / 4 );
-	    s.graphics.moveTo ( 2 * sap.CTRLBTNWIDTH / 3, sap.SAPHEIGHT / 4 );
-	    s.graphics.lineTo ( 2 * sap.CTRLBTNWIDTH / 3, 3 * sap.SAPHEIGHT / 4 );
+	    s.graphics.moveTo ( sap.CTRLBTNWIDTH / 3 - 6 , sap.SAPHEIGHT / 4 );
+	    s.graphics.lineTo ( sap.CTRLBTNWIDTH / 3 - 6, 3 * sap.SAPHEIGHT / 4 );
+	    s.graphics.moveTo ( 2 * sap.CTRLBTNWIDTH / 3 - 6, sap.SAPHEIGHT / 4 );
+	    s.graphics.lineTo ( 2 * sap.CTRLBTNWIDTH / 3 - 6, 3 * sap.SAPHEIGHT / 4 );
 	    s.graphics.endFill();
 	    return s;
 	}	

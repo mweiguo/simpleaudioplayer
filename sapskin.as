@@ -15,9 +15,11 @@ package {
 	private var _ctrlShapePlay:Shape = null;
 	private var _ctrlShapeStop:Shape = null;
 	private var _vx:int = 0;
-
 	private var _player:mp3player = null;
+	private var _path:String = null;
+
 	public function sapskin ( path:String ) {
+	    _path = path;
 	    _statusBtn = new sapskinStatusBtn(0xcccccc);
 	    _ctrlBtn = new sapskinCtrlBtn();
 	    _ctrlBtn.x = sap.STATUSBTNWIDTH;
@@ -33,9 +35,7 @@ package {
 	    addChild ( _statusBarMask ); 
 
 	    _player = new mp3player();
-	    _player.open ( path );
 	    _ctrlBtn.addEventListener ( MouseEvent.CLICK, onCtrlClicked );
-	    _player.addEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
 
 	    // add javascript interface
 	    ExternalInterface.addCallback ( "toggle", toggle );
@@ -44,14 +44,37 @@ package {
 	    onCtrlClicked(null); 
 	    _ctrlBtn.onCtrlClicked(null);
 	}
+
 	private function onPlayComplete ( e:Event ):void {
-	    ExternalInterface.call ("alert", "播放结束");
+	    ExternalInterface.call ("sap_playover", sap.ID);
 	    _ctrlBtn.onCtrlClicked ( null );
+	    _player.addEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
 	    removeEventListener ( Event.ENTER_FRAME, onEnterFrame );
+	}
+
+	private function onLoadIOError ( e:flash.events.IOErrorEvent ) : void {
+	    ExternalInterface.call ("sap_loadioerror", sap.ID);
+	    _player.removeEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
+	    _player.removeEventListener ( flash.events.IOErrorEvent.IO_ERROR, onLoadIOError );
+	    _player.removeEventListener ( mp3player.MP3PLAY_TIMEOUT, onLoadTimeout );
+	}
+
+	private function onLoadTimeout ( e:Event ) : void {
+	    ExternalInterface.call ("sap_loadtimeout", sap.ID);
+	    _player.removeEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
+	    _player.removeEventListener ( flash.events.IOErrorEvent.IO_ERROR, onLoadIOError );
+	    _player.removeEventListener ( mp3player.MP3PLAY_TIMEOUT, onLoadTimeout );
 	}
 
 	private function onCtrlClicked ( e:Event ):void {
 	    if ( _ctrlBtn.isPlayStatus() ) {
+		ExternalInterface.call ("sap_startplay", sap.ID);
+		if ( _player.getPlayPos() == 0 ) {
+		    _player.open ( _path );
+		    _player.addEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
+		    _player.addEventListener ( mp3player.MP3PLAY_TIMEOUT, onLoadTimeout );
+		    _player.addEventListener ( flash.events.IOErrorEvent.IO_ERROR, onLoadIOError );
+		}
 		_player.resume();
 		addEventListener ( Event.ENTER_FRAME, onEnterFrame );
 	    } else if ( _ctrlBtn.isStopStatus() ) {

@@ -3,6 +3,8 @@ package {
     import flash.display.SimpleButton;
     import flash.display.Shape;
     import flash.text.TextField;
+    import flash.display.LineScaleMode;
+    import flash.display.CapsStyle;
 
     public class sapskinStatus extends Sprite
     {
@@ -23,12 +25,12 @@ package {
 
 	    // status line
 	    this.graphics.lineStyle(1);
-	    this.graphics.drawRect ( 3 * sap.SAPHEIGHT / 8, sap.SAPHEIGHT / 2, sap.RUNLENGTH, sap.SAPHEIGHT / 4 );
+	    this.graphics.drawRect ( 0, sap.SAPHEIGHT / 2, sap.RUNLENGTH, sap.SAPHEIGHT / 4 );
 
 	    // display time
 	    _txt = new TextField ();
-	    _txt.x = sap.STATUSRUNLENGTH - 100;
-	    _txt.y = sap.SAPHEIGHT / 8;
+	    _txt.x = sap.STATUSRUNLENGTH - 120;
+	    _txt.y = sap.SAPHEIGHT / 20;
 	    _txt.text = "00:00:00";
 	    addChild ( _txt );
 
@@ -36,7 +38,7 @@ package {
 	    var s:Shape = new Shape();
 	    s.graphics.lineStyle();
 	    s.graphics.beginFill( sap.CURSORCOLOR, sap.CURSORALPHA );
-	    s.graphics.drawRect ( 3 * sap.SAPHEIGHT / 8, sap.SAPHEIGHT / 2 - 3, 10, 3 * sap.SAPHEIGHT / 8 );
+	    s.graphics.drawRect ( 0, sap.SAPHEIGHT / 2 - 3, 10, 3 * sap.SAPHEIGHT / 8 );
 	    s.graphics.endFill();
 	    _cursor = new SimpleButton();
 	    _cursor.upState = _cursor.downState = _cursor.overState = _cursor.hitTestState = s;
@@ -56,9 +58,11 @@ package {
 	public function setLoadedRgn ( f:Number ) : void {
 	    if ( f<0 && f>1 ) return;
 	    var s:Shape = new Shape ();
-	    s.graphics.lineStyle(10, 0x0, 0.3);
-	    s.graphics.moveTo ( 18, 25 );
-	    s.graphics.lineTo ( 18 + f * sap.RUNLENGTH - 6, 25);
+	    s.graphics.lineStyle(sap.SAPHEIGHT / 4, 0x0, 0.3, false, LineScaleMode.NORMAL, CapsStyle.NONE);
+	    s.graphics.moveTo (0, 5 * sap.SAPHEIGHT / 8);
+	    s.graphics.lineTo (f * sap.RUNLENGTH, 5 * sap.SAPHEIGHT / 8);
+
+	    
 	    _dataloadrgn.upState = s;
 
 	}
