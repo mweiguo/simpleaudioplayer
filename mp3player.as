@@ -55,6 +55,7 @@ package {
 	}
 
 	public function getLoadedPos () : Number {
+	    if ( 0 == bytesLoaded || 0 == bytesTotal ) return 0;
 	    return bytesLoaded / bytesTotal;
 	}
 

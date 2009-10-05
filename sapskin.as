@@ -69,7 +69,7 @@ package {
 	private function onCtrlClicked ( e:Event ):void {
 	    if ( _ctrlBtn.isPlayStatus() ) {
 		ExternalInterface.call ("sap_startplay", sap.ID);
-		if ( _player.getPlayPos() == 0 ) {
+		if ( _player.getLoadedPos() == 0 ) {
 		    _player.open ( _path );
 		    _player.addEventListener ( mp3player.MP3PLAY_COMPLETE, onPlayComplete );
 		    _player.addEventListener ( mp3player.MP3PLAY_TIMEOUT, onLoadTimeout );
